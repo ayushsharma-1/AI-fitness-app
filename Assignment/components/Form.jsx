@@ -56,14 +56,16 @@ export default function Form({ onResult }) {
   return (
     <motion.form 
       onSubmit={submit} 
-      className="card p-6"
+      className="card p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      whileHover={{ boxShadow: "0 25px 50px -12px rgba(139, 92, 246, 0.25)" }}
     >
-      <h2 className="text-xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <h2 className="text-2xl font-bold mb-6 gradient-text flex items-center gap-3">
+        <span className="text-3xl">📋</span>
         Tell me about you
       </h2>
-      <div className="space-y-4">
+      <div className="space-y-5">
         <input 
           name="name" 
           value={form.name} 
@@ -113,7 +115,7 @@ export default function Form({ onResult }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Fitness Goal</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Fitness Goal</label>
           <select name="goal" value={form.goal} onChange={update} className="input-field">
             <option>Weight Loss</option>
             <option>Muscle Gain</option>
@@ -123,7 +125,7 @@ export default function Form({ onResult }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Fitness Level</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Fitness Level</label>
           <select name="level" value={form.level} onChange={update} className="input-field">
             <option>Beginner</option>
             <option>Intermediate</option>
@@ -132,7 +134,7 @@ export default function Form({ onResult }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Workout Location</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Workout Location</label>
           <select name="location" value={form.location} onChange={update} className="input-field">
             <option>Home</option>
             <option>Gym</option>
@@ -141,7 +143,7 @@ export default function Form({ onResult }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Dietary Preference</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Dietary Preference</label>
           <select name="diet" value={form.diet} onChange={update} className="input-field">
             <option>Non-Veg</option>
             <option>Veg</option>
@@ -160,22 +162,32 @@ export default function Form({ onResult }) {
 
         {error && (
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 bg-red-50 dark:bg-red-900/20 border-2 border-red-300 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm font-medium"
           >
-            {error}
+            ⚠️ {error}
           </motion.div>
         )}
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-3 pt-4">
           <motion.button 
             disabled={loading} 
-            className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary flex-1 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
             whileHover={{ scale: loading ? 1 : 1.02 }}
-            whileTap={{ scale: loading ? 1 : 0.98 }}
+            whileTap={{ scale: loading ? 1 : 0.95 }}
           >
-            {loading ? 'Generating...' : 'Generate Plan'}
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                </svg>
+                Generating...
+              </span>
+            ) : (
+              '✨ Generate Plan'
+            )}
           </motion.button>
           <motion.button 
             type="button" 
@@ -185,11 +197,11 @@ export default function Form({ onResult }) {
                 onResult(null) 
               } catch(e){} 
             }} 
-            className="btn-secondary"
+            className="btn-secondary px-6"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Clear
+            🗑️ Clear
           </motion.button>
         </div>
       </div>

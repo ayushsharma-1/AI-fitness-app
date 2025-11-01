@@ -1,8 +1,12 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
   const body = req.body || {}
-  const key = process.env.GEMINI_API_KEY
-  if (!key) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' })
+  
+  const groqKey = process.env.GROQ_API_KEY
+  
+  if (!groqKey) {
+    return res.status(500).json({ error: 'GROQ_API_KEY not configured in .env.local' })
+  }
 
   const prompt = `You are a professional fitness coach. Generate a personalized fitness plan.
 
@@ -27,38 +31,34 @@ Generate a detailed response with:
 Format your response clearly with sections for Workout Plan, Diet Plan, Tips, and Motivation.`
 
   try {
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${key}`, {
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${groqKey}`
       },
       body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 2048
-        }
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: 'You are a professional fitness coach.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 2048
       })
     })
     
     if (!r.ok) {
       const errorText = await r.text()
-      console.error('Gemini API error:', errorText)
+      console.error('Groq API error:', errorText)
       return res.status(500).json({ error: 'Failed to generate plan', details: errorText })
     }
     
     const data = await r.json()
-    
-    if (!data.candidates || data.candidates.length === 0) {
-      return res.status(500).json({ error: 'No response from Gemini AI', details: JSON.stringify(data) })
-    }
-    
-    const content = data.candidates[0]?.content?.parts?.[0]?.text || ''
+    const content = data.choices?.[0]?.message?.content || ''
     
     if (!content) {
-      return res.status(500).json({ error: 'Empty response from Gemini AI' })
+      return res.status(500).json({ error: 'Empty response from Groq AI' })
     }
 
     const sections = {

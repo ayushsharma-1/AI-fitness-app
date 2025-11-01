@@ -1,23 +1,23 @@
 # AI Fitness Coach
 
-Minimal Next.js app that generates personalized workout and diet plans using Gemini AI, with TTS and image generation.
+Minimal Next.js app that generates personalized workout and diet plans using Groq AI (Llama 3.3), with TTS and image generation.
 
 Requirements
 - Node 18+ recommended
 - Environment variables (create `.env.local` file):
-  - GEMINI_API_KEY (required for plan generation)
+  - GROQ_API_KEY (required for plan generation)
   - MURF_API_KEY (optional, for TTS voice synthesis)
 
 ## Setup
 
-1. Get your Gemini API key from: https://makersuite.google.com/app/apikey
+1. Get your Groq API key from: https://console.groq.com/keys (FREE)
 
 2. Get your Murf AI API key from: https://murf.ai (optional, for voice features)
 
 3. Create `.env.local` file in the project root:
 
 ```
-GEMINI_API_KEY=your_gemini_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 MURF_API_KEY=your_murf_api_key_here
 ```
 
@@ -30,7 +30,7 @@ npm run dev
 
 ## Usage
 - Open http://localhost:3000
-- Fill the form and click "Generate Plan". The server will call Gemini AI to create a personalized plan.
+- Fill the form and click "Generate Plan". The server will call Groq AI to create a personalized plan.
 - Use Play buttons to hear the plan (Murf AI required).
 - Generate exercise/food images via the Generate image control.
 - Export PDF using Export PDF button.
@@ -57,7 +57,8 @@ npm run dev
 - React 18
 - Tailwind CSS
 - Framer Motion
-- Gemini AI
+- Groq AI (Llama 3.3 70B)
 - Murf AI (optional)
 - jsPDF
+- Unsplash Images
 
