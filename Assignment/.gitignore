@@ -1,6 +1,7 @@
 node_modules
+.next
+.env.local
 dist
-*.db
-.env
-.DS_Store
-*.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log

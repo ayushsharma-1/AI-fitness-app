@@ -1,21 +1,21 @@
 {
-  "name": "plinko-lab",
-  "version": "1.0.0",
-  "description": "Provably fair Plinko game - Daphnis Labs Assignment",
-  "author": "Ayush Sharma",
+  "name": "ai-fitness-coach",
+  "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
-    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd backend && npm run dev",
-    "client": "cd frontend && npm run dev",
-    "build": "cd frontend && npm run build"
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
   },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+  "dependencies": {
+    "next": "13.5.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.4.7",
+    "postcss": "8.4.21",
+    "autoprefixer": "10.4.14",
+    "axios": "1.5.0",
+    "jspdf": "2.5.1",
+    "framer-motion": "10.12.16"
   }
 }
